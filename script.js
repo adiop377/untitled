@@ -47,23 +47,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic Optimization: Intersection Observer for Scroll Reveals
     const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.05, // Lower threshold for more sensitive triggering
+        rootMargin: "0px 0px -20px 0px"
     };
 
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                // Performance: Once revealed, we don't need to observe it anymore
                 revealObserver.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => {
-        revealObserver.observe(el);
-    });
+    // Initial Observation
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Safety Fallback: Force reveal after 3 seconds if observer fails
+    setTimeout(() => {
+        revealElements.forEach(el => {
+            if (!el.classList.contains('active')) {
+                el.classList.add('active');
+            }
+        });
+    }, 2000);
 
     // Dynamically load projects from the database
     async function loadProjects() {
@@ -72,26 +80,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const res = await fetch('projects.json');
+            if (!res.ok) throw new Error('Network response was not ok');
             const projects = await res.json();
             
             grid.innerHTML = '';
             projects.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'work-card reveal'; // Added reveal class for dynamic entry
+                card.className = 'work-card reveal';
                 card.innerHTML = `
                     <div class="card-img-container">
-                        <img src="${p.image}" alt="Quest Item" class="work-img" loading="lazy">
+                        <img src="${p.image}" alt="Quest Item" class="work-img" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=IMG_ERROR'">
                     </div>
                 `;
                 
-                // Click to zoom
                 card.onclick = () => openModal(p.image);
-                
                 grid.appendChild(card);
-                revealObserver.observe(card); // Observe new dynamic cards
+                revealObserver.observe(card);
             });
         } catch (err) {
             console.error('Failed to load projects:', err);
+            grid.innerHTML = '<p class="pixel-card">Quest Log Empty or Failed to Sync...</p>';
         }
     }
 

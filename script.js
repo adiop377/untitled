@@ -45,23 +45,42 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
     }, false);
 
+    // Dynamic Optimization: Intersection Observer for Scroll Reveals
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Performance: Once revealed, we don't need to observe it anymore
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
+
     // Dynamically load projects from the database
     async function loadProjects() {
         const grid = document.getElementById('workGrid');
         if (!grid) return;
 
         try {
-            // Updated to fetch static file for Vercel compatibility
             const res = await fetch('projects.json');
             const projects = await res.json();
             
             grid.innerHTML = '';
             projects.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'work-card';
+                card.className = 'work-card reveal'; // Added reveal class for dynamic entry
                 card.innerHTML = `
                     <div class="card-img-container">
-                        <img src="${p.image}" alt="Quest Item" class="work-img">
+                        <img src="${p.image}" alt="Quest Item" class="work-img" loading="lazy">
                     </div>
                 `;
                 
@@ -69,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.onclick = () => openModal(p.image);
                 
                 grid.appendChild(card);
+                revealObserver.observe(card); // Observe new dynamic cards
             });
         } catch (err) {
             console.error('Failed to load projects:', err);

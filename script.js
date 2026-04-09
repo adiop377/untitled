@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!grid) return;
 
         try {
-            const res = await fetch('/api/projects');
+            // Updated to fetch static file for Vercel compatibility
+            const res = await fetch('projects.json');
             const projects = await res.json();
             
             grid.innerHTML = '';

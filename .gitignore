@@ -4,3 +4,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+
+# Local Admin Files
+server.js
+admin.html
+package.json
+package-lock.json
+projects.json

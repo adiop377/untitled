@@ -544,7 +544,22 @@ body {
     }
 
     .nav-item {
-        font-size: 0.45rem;
+        font-size: 0.5rem;
+    }
+
+    /* Text Clarity Fix for Mobile */
+    .crt-overlay {
+        opacity: 0.4; /* Subtle effect on mobile */
+    }
+
+    .scanlines {
+        opacity: 0.3; /* Low intensity for readability */
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
     }
 }
 

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN PANEL | Inventory Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 2rem;
+            background: var(--panel-bg);
+            border: 4px solid var(--accent-primary);
+            box-shadow: 10px 10px 0 var(--accent-secondary);
+        }
+
+        .upload-section {
+            border: 2px dashed var(--accent-tertiary);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .inventory-item {
+            border: 2px solid var(--text-primary);
+            padding: 0.5rem;
+            background: #000;
+            position: relative;
+        }
+
+        .inventory-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .delete-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            width: 100%;
+            font-family: var(--font-heading);
+            font-size: 0.6rem;
+            margin-top: 5px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            background: var(--accent-secondary);
+            color: #000;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            border: 2px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            margin-bottom: 1rem;
+        }
+
+        .status-msg {
+            margin-top: 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <div class="crt-overlay"></div>
+
+    <div class="admin-container">
+        <h1 class="glitch" data-text="INVENTORY MANAGER">INVENTORY MANAGER</h1>
+        <p class="subtitle">PROJECT UPLOAD TERMINAL</p>
+
+        <section class="upload-section">
+            <label class="custom-file-upload">
+                <input type="file" id="imageInput" accept="image/*" multiple>
+                [ + ] BULK UPLOAD
+            </label>
+            <div id="status" class="status-msg">READY FOR ADVENTURE...</div>
+        </section>
+
+        <h2 class="section-title" style="margin-bottom: 2rem; font-size: 1.5rem;">STORED LOOT</h2>
+        <div class="inventory-grid" id="inventoryGrid">
+            <!-- Items loaded via JS -->
+        </div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('inventoryGrid');
+        const status = document.getElementById('status');
+        const fileInput = document.getElementById('imageInput');
+
+        async function loadProjects() {
+            const res = await fetch('/api/projects');
+            const projects = await res.json();
+            grid.innerHTML = '';
+            projects.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'inventory-item';
+                item.innerHTML = `
+                    <img src="${p.image}" alt="Loot">
+                    <button class="delete-btn" onclick="deleteProject('${p.id}')">DISCARD</button>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        fileInput.addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length === 0) return;
+
+            status.textContent = `UPLOADING ${files.length} ITEMS TO MAINFRAME...`;
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('images', files[i]);
+            }
+
+            try {
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    status.textContent = `${data.count} ITEMS UPLOADED SUCCESSFULLY!`;
+                    loadProjects();
+                }
+            } catch (err) {
+                status.textContent = "ERROR: BULK UPLOAD FAILED";
+            }
+        });
+
+        async function deleteProject(id) {
+            if (!confirm('Discard this item?')) return;
+            await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+            loadProjects();
+        }
+
+        loadProjects();
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNTITLED STUDIO | 3D Pixel Portfolio</title>
+    <meta name="description" content="Portfolio of UNTITLED THE CREATOR - Professional 3D Artist and Roblox Developer specializing in Blender and Substance Painter.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="scanlines"></div>
+
+    <nav class="pixel-nav">
+        <div class="logo">UNTITLED STUDIO</div>
+        <div class="nav-links">
+            <a href="#about" class="nav-item">ABOUT</a>
+            <a href="#skills" class="nav-item">STATS</a>
+            <a href="#work" class="nav-item">LOOT</a>
+            <a href="#contact" class="nav-item">QUEST</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="glitch" data-text="UNTITLED THE CREATOR">UNTITLED THE CREATOR</h1>
+            <p class="subtitle">LEVEL 99 3D ARTIST & ARCHITECT</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <span class="label">EXP</span>
+                    <div class="bar-container"><div class="bar exp-bar" style="width: 85%;"></div></div>
+                </div>
+                <div class="stat-box">
+                    <span class="label">HP</span>
+                    <div class="bar-container"><div class="bar hp-bar" style="width: 100%;"></div></div>
+                </div>
+            </div>
+            <a href="#work" class="pixel-btn">VIEW PORTFOLIO</a>
+        </div>
+        <div class="hero-avatar">
+            <img src="assets/avatar_new.jpg" alt="UNTITLED Avatar" class="avatar-img">
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="pixel-section">
+            <h2 class="section-title">PLAYER PROFILE</h2>
+            <div class="pixel-card">
+                <p>Hi, I’m UNTITLED THE CREATOR, a self-taught 3D artist with 6 years of experience in Blender and 3 years in Substance Painter.</p>
+                <p>I specialize in creating game assets, environments, and animations for platforms like Roblox. Whether you need a realistic, stylized, or unique look, I can craft any build or asset in any style you want. My passion is turning ideas into detailed models, smooth animations, and immersive worlds—no matter the challenge.</p>
+            </div>
+        </section>
+
+        <section id="skills" class="pixel-section">
+            <h2 class="section-title">SKILL TREE</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <span class="skill-name">3D Modeling (Blender)</span>
+                    <div class="skill-bar"><div class="fill" style="width: 95%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Texturing (Substance Painter)</span>
+                    <div class="skill-bar"><div class="fill" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Game Asset Creation</span>
+                    <div class="skill-bar"><div class="fill" style="width: 98%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Roblox R6 Animation</span>
+                    <div class="skill-bar"><div class="fill" style="width: 75%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Environment Design</span>
+                    <div class="skill-bar"><div class="fill" style="width: 92%;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="pixel-section">
+            <h2 class="section-title">COMPLETED QUESTS</h2>
+            <div class="work-grid" id="workGrid">
+                <!-- Projects will be loaded dynamically from the API -->
+            </div>
+        </section>
+
+        <section id="pricing" class="pixel-section">
+            <h2 class="section-title">PRICING GUILD</h2>
+            <div class="pixel-card compact">
+                <p>Pricing is negotiable and depends on complexity, size, and timeframe.</p>
+                <ul class="factors-list">
+                    <li><span class="icon">💰</span> PROJECT SIZE matters</li>
+                    <li><span class="icon">⏳</span> TIMEFRAME affects rate</li>
+                    <li><span class="icon">🔥</span> COMPLEXITY levels</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="contact" class="pixel-section">
+            <h2 class="section-title">START QUEST</h2>
+            <div class="contact-box">
+                <div class="dialog">
+                    <p>NPC: "Looking for a high-quality 3D build? I can help! Message me on Discord or send a carrier pigeon (email)."</p>
+                </div>
+                <div class="contact-links">
+                    <a href="https://discord.com" class="contact-btn discord">DISCORD: untitled5303</a>
+                    <a href="mailto:tyson000047@gmail.com" class="contact-btn email">EMAIL: tyson000047@gmail.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pixel-footer">
+        <p>© 2024 UNTITLED STUDIO. ALL RIGHTS RESERVED.</p>
+        <p>PRESS [START] TO CONTINUE</p>
+    </footer>
+
+    <!-- Image Zoom Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content-container">
+            <img class="modal-content" id="imgModal">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

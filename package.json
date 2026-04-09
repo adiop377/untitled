@@ -4,8 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "echo 'Static Site Build Complete'"
+    "build": "echo 'Static Site'"
   },
   "keywords": [],
   "author": "",
